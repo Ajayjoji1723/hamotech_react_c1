@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./index.css";
 import Userprofile from "../Userprofile/index";
 
@@ -33,10 +34,36 @@ const userDetailsList = [
 ];
 
 const Users = () => {
+  const [search, setSearch] = useState("");
+  const [searchResult, setSearchResult] = useState(userDetailsList);
+
+  const handleSearch = (event) => {
+    setSearch(event.target.value);
+    setSearchResult(
+      searchResult.filter((user) =>
+        user.name.toLowerCase().includes(event.target.value.toLowerCase())
+      )
+    );
+  };
+
+  const deletUser = (unique) => {
+    const filteredData = searchResult.filter(
+      (user) => user.uniqueNo !== unique
+    );
+    setSearchResult(filteredData);
+  };
+
   return (
     <div className="text-center pt-3">
-      {userDetailsList.map((user) => (
-        <Userprofile user={user} key={user.uniqueNo} />
+      <input
+        type="search"
+        className="input"
+        placeholder="search with user name..."
+        value={search}
+        onChange={handleSearch}
+      />
+      {searchResult.map((user) => (
+        <Userprofile user={user} key={user.uniqueNo} deletUser={deletUser} />
       ))}
     </div>
   );

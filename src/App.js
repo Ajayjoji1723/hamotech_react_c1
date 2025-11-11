@@ -1,7 +1,11 @@
 import Users from "./components/Users";
 
 function App() {
-  return <Users />;
+  return (
+    <div>
+      <Users />
+    </div>
+  );
 }
 
 export default App;
